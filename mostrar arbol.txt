@@ -1,0 +1,300 @@
+#include <iostream>
+using namespace std;
+
+class Nodo {
+    int dato;
+    Nodo* hijoDerecho;
+    Nodo* hijoIzquierdo;
+public:
+    //Constructor - inicializar los atributos
+    Nodo(int dato)
+    {
+        this->dato = dato;
+        hijoDerecho = NULL;//por que no apuntamos a ningun nodo
+        hijoIzquierdo = NULL;//por que no apuntamos a ningun nodo
+    }
+    //getter and setter
+    int getDato()
+    {
+        return dato;
+    }
+    void setDato(int dato)
+    {
+        this->dato = dato;
+    }
+    Nodo* getHijoIzquierdo()
+    {
+        return this->hijoIzquierdo;
+    }
+    void setHijoIzquierdo(Nodo* enlace)
+    {
+        this->hijoIzquierdo = enlace;
+    }
+    Nodo* getHijoDerecho()
+    {
+        return this->hijoDerecho;
+    }
+    void setHijoDerecho(Nodo* enlace)
+    {
+        this->hijoDerecho = enlace;
+    }
+
+    void imprimir()
+    {
+        cout << "/-------------------\\" << endl;
+        cout << "|Dato: " << dato << endl;
+        cout << "|-------------------" << endl;
+        cout << "|Izquierdo: " << hijoIzquierdo << "\tDerecho: " << hijoDerecho << endl;
+        cout << "\\------------------/" << endl;
+    }
+};
+class ArbolBinario {
+    Nodo* raiz;
+public:
+    ArbolBinario() {
+        raiz = NULL;
+    }
+    Nodo* getRaiz(){
+        return this->raiz;
+
+    }
+    bool EstaVacia()
+    {
+        if (raiz == NULL)
+            return true;
+        else
+            return false;
+    }
+    void Insertar(Nodo* inicial, int dato) {
+       /* if(raiz == NULL){
+            Nodo* temp = new Nodo(dato);
+            temp->getDato() = dato;
+            temp->getHijoIzquierdo()= NULL;
+            temp->getHijoDerecho() = NULL;
+            raiz= temp;
+
+        }*/
+        //aqui vamos a implementar este codigo
+        Nodo* temp = new Nodo(dato);
+        if(EstaVacia())
+        {
+            //raiz = temp;
+            raiz=temp;
+
+        }
+        else{
+                /*if(raiz->getDato() < dato)
+                {
+                   raiz->setHijoIzquierdo(raiz);
+                }
+                else
+                {
+                   raiz->setHijoDerecho(raiz);
+                }
+                */
+
+                /*int valorRaiz = raiz->getDato();
+                if(dato < valorRaiz)
+                {
+                    Insertar(dato);
+                    raiz->getHijoIzquierdo();
+                }
+                else{
+                    Insertar(dato);
+                    raiz->getHijoIzquierdo();
+                }*/
+                  if(dato < inicial->getDato())
+                {
+                    if(inicial->getHijoIzquierdo()==NULL)
+                        {inicial->setHijoIzquierdo(temp);}
+                    else
+                        {Insertar(inicial->getHijoIzquierdo(),dato);}
+                }
+
+                else {
+                    if(inicial->getHijoDerecho()==NULL)
+                    {inicial->setHijoDerecho(temp);}
+                    else
+                        {Insertar(inicial->getHijoDerecho(),dato);}
+                }
+
+
+        }
+    }
+    void Mostrar(Nodo* inicial, int contador)
+    {
+        if(inicial==NULL)
+        {
+          return;
+        }
+        else
+        {
+        Mostrar(inicial->getHijoDerecho(),contador+1);
+        for(int i=0;i<contador;i++)
+        {
+            cout<<"   ";
+        }
+        cout<<inicial->getDato()<<endl;
+        Mostrar(inicial->getHijoIzquierdo(),contador+1);
+        }
+    }
+  void PreOrden(Nodo* inicial)
+  {
+      if(inicial==NULL)
+      {
+          return;
+      }
+      else
+      {
+
+        cout<<inicial->getDato() << " ";
+        PreOrden(inicial->getHijoIzquierdo());
+        PreOrden(inicial->getHijoDerecho());
+
+      }
+  }
+void InOrden(Nodo* inicial)
+{
+      if(inicial==NULL)
+      {
+          return;
+      }
+      else
+    {
+        InOrden(inicial->getHijoIzquierdo());
+        cout<<inicial->getDato() << " ";
+        InOrden(inicial->getHijoDerecho());
+    }
+}
+
+void  posorden(Nodo* inicial)
+{
+    if(inicial)
+    {
+        posorden(inicial->getHijoIzquierdo());
+        posorden(inicial->getHijoDerecho());
+        cout<< inicial ->getDato() << " " ;
+    }
+}
+
+void Insertar(int dato)
+{
+    Insertar(raiz, dato);
+}
+
+void PreOrden()
+{
+    PreOrden(raiz);
+}
+
+void InOrden()
+{
+    InOrden(raiz);
+}
+void  posorden()
+{
+    posorden(raiz);
+}
+
+void Mostrar(int contador)
+{
+    Mostrar(raiz,contador);
+}
+
+
+};
+
+
+
+
+void menu(){
+    ArbolBinario arbol = ArbolBinario();
+
+int dato, opcion, contador=0;
+do{
+    cout<<"\t.: MENU: ."<<endl;
+    cout<<"1. Insertar un nuevo nodo"<<endl;
+    cout<<"2. Mostrar el arbol completo"<<endl;
+    cout<<"3. Mostrar el arbol Preorder"<<endl;
+    cout<<"4. Mostrar el arbol Inorder"<<endl;
+    cout<<"5. Mostar el arbol PostOrder"<<endl;
+    cout<<"6. Salir "<<endl;
+    cout<<"Opcion: ";
+    cin>>opcion;
+    switch(opcion){
+case 1:
+    cout<<"\nDigite un numero: "; cin>>dato;
+    arbol.Insertar(dato);
+    cout<<"\n";
+    system("pause");
+    break;
+case 2:
+    cout<<"\nMostrando el arbol completo:\n\n";
+    arbol.Mostrar(contador);
+    cout<<"\n";
+    system("pause");
+    break;
+
+ case 3:
+    cout<<"\nMostrando PreOrden:\n\n";
+    arbol.PreOrden();
+    cout<<"\n";
+    system("pause");
+    break;
+
+ case 4:
+    cout<<"\nMostrando el arbol completo:\n\n";
+    arbol.InOrden();
+    cout<<"\n";
+    system("pause");
+    break;
+
+ case 5:
+    cout<<"\nMostrando el arbol completo:\n\n";
+    arbol.posorden();
+    cout<<"\n";
+    system("pause");
+    break;
+        }
+        system("cls");
+}while(opcion != 6);
+}
+
+
+int main()
+{
+    int contador=0;
+   ArbolBinario arbol = ArbolBinario();
+   arbol.Insertar(7);
+   arbol.Insertar(9);
+   arbol.Insertar(1);
+   arbol.Insertar(15);
+   arbol.Insertar(10);
+   arbol.Insertar(6);
+   arbol.Insertar(5);
+   arbol.Insertar(0);
+   arbol.Insertar(7);
+
+   arbol.getRaiz()->imprimir();
+    //cout<<endl;
+    //cout<<endl;
+   //cout<<" PreOrden() "<<endl;
+  // arbol.PreOrden();
+   //cout<<endl;
+   //cout<<endl;
+   //cout<< " InOrden()"<<endl;
+   // arbol.InOrden();
+   //cout<<endl;
+   //cout<<endl;
+   //cout<< " posorden "<<endl;
+   // arbol.posorden();
+
+   cout<<endl;
+   cout<<endl;
+   cout<<endl;
+
+   cout<<" Mostrando el arbol completo "<<endl;
+   arbol.Mostrar(contador);
+//menu();
+return 0;
+}
